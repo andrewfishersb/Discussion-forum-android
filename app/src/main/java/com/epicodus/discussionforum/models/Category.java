@@ -7,6 +7,10 @@ public class Category {
     String title;
     String image;
 
+    public Category(){
+
+    }
+
     public Category(String title, String image) {
         this.title = title;
         this.image = image;

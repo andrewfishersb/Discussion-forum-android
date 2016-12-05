@@ -24,6 +24,8 @@ import butterknife.ButterKnife;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>{
     private ArrayList<Category> mCategories = new ArrayList<>();
     private Context mContext;
+    private static final int MAX_WIDTH = 300;
+    private static final int MAX_HEIGHT = 300;
 
     public CategoryListAdapter(Context context, ArrayList<Category> categories){
         mCategories = categories;
@@ -60,8 +62,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         }
 
         public void bindCategory(Category category){
-            mCategoryName.setText("This is a category");
-            Picasso.with(mContext).load("https://i.ytimg.com/vi/nj7Qj8uCTrA/hqdefault.jpg").into(mCategoryImageView);
+            mCategoryName.setText(category.getTitle());
+            Picasso.with(mContext).load(category.getImage()).error(R.drawable.nophotoavailable).into(mCategoryImageView);
 
         }
 

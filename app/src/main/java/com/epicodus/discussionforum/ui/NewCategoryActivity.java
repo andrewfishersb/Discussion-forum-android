@@ -3,6 +3,7 @@ package com.epicodus.discussionforum.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,9 +38,13 @@ public class NewCategoryActivity extends AppCompatActivity implements View.OnCli
             DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_CATEGORY);
             String categoryName = mCategoryTitleEditText.getText().toString();
             String categoryImageUrl = mCategoryImageEditText.getText().toString();
-            Category newCategory = new Category(categoryName, categoryImageUrl);
+            if(!categoryImageUrl.equals("")&&categoryImageUrl!=null){
+                Category newCategory = new Category(categoryName, categoryImageUrl);
+                categoryRef.push().setValue(newCategory);
+            }
 
-            categoryRef.push().setValue(newCategory);
+
+
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(NewCategoryActivity.this, MainActivity.class);
