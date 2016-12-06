@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.epicodus.discussionforum.Constants;
 import com.epicodus.discussionforum.R;
 import com.epicodus.discussionforum.models.Category;
+import com.epicodus.discussionforum.ui.CategoryDetailActivity;
 import com.epicodus.discussionforum.ui.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,8 +63,8 @@ public class FirebaseCategoryViewHolder extends RecyclerView.ViewHolder implemen
 
                 int itemPosition = getLayoutPosition();
 
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("position", itemPosition + "");
+                Intent intent = new Intent(mContext, CategoryDetailActivity.class);
+                intent.putExtra("position", itemPosition);
                 intent.putExtra("categories", Parcels.wrap(categories));
 
                 mContext.startActivity(intent);

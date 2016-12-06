@@ -16,9 +16,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.NewCategoryActivity">
-<meta-data
-    android:name="android.support.PARENT_ACTIVITY"
-    android:value="com.epicodus.discussionforum.ui.MainActivity"></meta-data>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.epicodus.discussionforum.ui.MainActivity" />
+        </activity>
+        <activity android:name=".ui.CategoryDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.epicodus.discussionforum.ui.MainActivity" />
         </activity>
     </application>
 

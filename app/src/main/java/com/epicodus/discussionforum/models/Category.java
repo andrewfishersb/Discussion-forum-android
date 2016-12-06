@@ -1,8 +1,12 @@
 package com.epicodus.discussionforum.models;
 
+import org.parceler.Parcel;
+
 /**
  * Created by Guest on 12/5/16.
  */
+
+@Parcel
 public class Category {
     String title;
     String image;
