@@ -13,7 +13,9 @@ import android.widget.Button;
 import com.epicodus.discussionforum.Constants;
 import com.epicodus.discussionforum.R;
 import com.epicodus.discussionforum.adapters.CategoryListAdapter;
+import com.epicodus.discussionforum.adapters.FirebaseCategoryViewHolder;
 import com.epicodus.discussionforum.models.Category;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,11 +28,12 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     @Bind(R.id.categoryButton) Button mCategoryButton;
-    private ArrayList<Category> mCategories = new ArrayList<>();
+//    private ArrayList<Category> mCategories = new ArrayList<>();
     private DatabaseReference mAllCategoriesReference;
-    private ValueEventListener mCategoryReferenceListener;
-    private CategoryListAdapter mAdapter;
-    private ProgressDialog progress;
+//    private ValueEventListener mCategoryReferenceListener;
+//    private CategoryListAdapter mAdapter;
+//    private ProgressDialog progress;
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     @Override
@@ -39,26 +42,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
         //shows dialog box
-        showLoadingDialog();
+        //showLoadingDialog();
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                progress.dismiss();
-            }
-        }, 1000);
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                progress.dismiss();
+//            }
+//        }, 1000);
 
-        getCategories();
-        Log.d("testing", "after get cats");
+        mAllCategoriesReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_CATEGORY);
+
+        setUpFirebaseAdapter();
+        //getCategories();
         mCategoryButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v){
         if (v == mCategoryButton) {
-
             Intent intent = new Intent(MainActivity.this, NewCategoryActivity.class);
             startActivity(intent);
         }
@@ -67,53 +70,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAllCategoriesReference.removeEventListener(mCategoryReferenceListener);
+        mFirebaseAdapter.cleanup();
     }
 
-    private void getCategories(){
-
-        MainActivity.this.runOnUiThread(new Runnable() {
+    private void setUpFirebaseAdapter() {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Category, FirebaseCategoryViewHolder>(Category.class, R.layout.category_list_item, FirebaseCategoryViewHolder.class, mAllCategoriesReference) {
             @Override
-            public void run() {
-                mAdapter = new CategoryListAdapter(getApplicationContext(), mCategories);
-                mRecyclerView.setAdapter(mAdapter);
-                GridLayoutManager layoutManager = new GridLayoutManager(MainActivity.this,2);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mRecyclerView.setHasFixedSize(true);
-
-                mAllCategoriesReference = FirebaseDatabase.getInstance().getReference().child(Constants.FIREBASE_CHILD_CATEGORY);
-
-                mCategoryReferenceListener = mAllCategoriesReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        dismissLoadingDialog();
-                        Log.d("Hello","Did this load?");
-                        for(DataSnapshot categorySnapshot : dataSnapshot.getChildren()){
-                            String title = categorySnapshot.getValue(Category.class).getTitle();
-                            String image = categorySnapshot.getValue(Category.class).getImage();
-                            Category currentCategory = new Category(title,image);
-                            mCategories.add(currentCategory);
-
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-//                        dismissLoadingDialog();
-                    }
-                });
+            protected void populateViewHolder(FirebaseCategoryViewHolder viewHolder, Category model, int position) {
+                viewHolder.bindCategory(model);
             }
-        });
+        };
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
-    public void showLoadingDialog() {
+//    private void getCategories(){
+//
+//        MainActivity.this.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mAdapter = new CategoryListAdapter(getApplicationContext(), mCategories);
+//                mRecyclerView.setAdapter(mAdapter);
+//                GridLayoutManager layoutManager = new GridLayoutManager(MainActivity.this,2);
+//                mRecyclerView.setLayoutManager(layoutManager);
+//                mRecyclerView.setHasFixedSize(true);
+//
+//                mAllCategoriesReference = FirebaseDatabase.getInstance().getReference().child(Constants.FIREBASE_CHILD_CATEGORY);
+//
+//                mCategoryReferenceListener = mAllCategoriesReference.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                        for(DataSnapshot categorySnapshot : dataSnapshot.getChildren()){
+//                            String title = categorySnapshot.getValue(Category.class).getTitle();
+//                            String image = categorySnapshot.getValue(Category.class).getImage();
+//                            Category currentCategory = new Category(title,image);
+//                            mCategories.add(currentCategory);
+//
+//                        }
+//                        dismissLoadingDialog();
+//                    }
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        dismissLoadingDialog();
+//                    }
+//                });
+//            }
+//        });
+//    }
 
-        if (progress == null) {
-            progress = new ProgressDialog(MainActivity.this);
-            progress.setMessage("Loading...");
-        }
-        progress.show();
-    }
-
+//    public void showLoadingDialog() {
+//
+//        if (progress == null) {
+//            progress = new ProgressDialog(MainActivity.this);
+//            progress.setMessage("Loading...");
+//        }
+//        progress.show();
+//    }
+//
 //    public void dismissLoadingDialog() {
 //
 //        if (progress != null && progress.isShowing()) {
