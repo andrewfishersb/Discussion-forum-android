@@ -39,16 +39,23 @@ public class NewCategoryActivity extends AppCompatActivity implements View.OnCli
             String categoryName = mCategoryTitleEditText.getText().toString();
             String categoryImageUrl = mCategoryImageEditText.getText().toString();
             if(!categoryImageUrl.equals("")&&categoryImageUrl!=null){
-                Category newCategory = new Category(categoryName, categoryImageUrl);
-                categoryRef.push().setValue(newCategory);
+                if(!categoryName.equals("")&&categoryName!=null){
+                    Category newCategory = new Category(categoryName, categoryImageUrl);
+                    categoryRef.push().setValue(newCategory);
+
+
+                    Intent intent = new Intent(NewCategoryActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+
+            }else{
+                Toast.makeText(this, "You are a failure, please leave", Toast.LENGTH_SHORT).show();
             }
 
 
 
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(NewCategoryActivity.this, MainActivity.class);
-            startActivity(intent);
+
         }
     }
 }
