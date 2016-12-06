@@ -2,6 +2,7 @@ package com.epicodus.discussionforum.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,7 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+
+        //shows dialog box
         showLoadingDialog();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                progress.dismiss();
+            }
+        }, 1000);
 
         getCategories();
         Log.d("testing", "after get cats");
@@ -76,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mCategoryReferenceListener = mAllCategoriesReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        dismissLoadingDialog();
+//                        dismissLoadingDialog();
                         Log.d("Hello","Did this load?");
                         for(DataSnapshot categorySnapshot : dataSnapshot.getChildren()){
                             String title = categorySnapshot.getValue(Category.class).getTitle();
@@ -88,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        dismissLoadingDialog();
+//                        dismissLoadingDialog();
                     }
                 });
             }
@@ -104,10 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progress.show();
     }
 
-    public void dismissLoadingDialog() {
-
-        if (progress != null && progress.isShowing()) {
-            progress.dismiss();
-        }
-    }
+//    public void dismissLoadingDialog() {
+//
+//        if (progress != null && progress.isShowing()) {
+//            progress.dismiss();
+//        }
+//    }
 }
