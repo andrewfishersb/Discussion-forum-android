@@ -52,7 +52,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.action_add_post:
-                Intent intent = new Intent(CategoryDetailActivity.this,AddPostActivity.class);
+                Intent intent = new Intent(CategoryDetailActivity.this, AddPostActivity.class);
+                intent.putExtra("category", Parcels.wrap(mCategory));
                 startActivity(intent);
                  return true;
             default:

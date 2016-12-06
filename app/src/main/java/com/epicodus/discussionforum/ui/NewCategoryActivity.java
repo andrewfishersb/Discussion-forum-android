@@ -12,8 +12,11 @@ import android.widget.Toast;
 import com.epicodus.discussionforum.Constants;
 import com.epicodus.discussionforum.R;
 import com.epicodus.discussionforum.models.Category;
+import com.epicodus.discussionforum.models.Post;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,9 +41,10 @@ public class NewCategoryActivity extends AppCompatActivity implements View.OnCli
             DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_CATEGORY);
             String categoryName = mCategoryTitleEditText.getText().toString();
             String categoryImageUrl = mCategoryImageEditText.getText().toString();
+            ArrayList<Post> newPost = new ArrayList<>();
             if(!categoryImageUrl.equals("")&&categoryImageUrl!=null){
                 if(!categoryName.equals("")&&categoryName!=null){
-                    Category newCategory = new Category(categoryName, categoryImageUrl);
+                    Category newCategory = new Category(categoryName, categoryImageUrl,newPost);
                     categoryRef.push().setValue(newCategory);
 
 
