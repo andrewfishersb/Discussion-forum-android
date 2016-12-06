@@ -13,16 +13,15 @@ import java.util.List;
 public class Category {
     String title;
     String image;
-    List<Post> posts = new ArrayList<>();
+    String categoryId;
 
     public Category(){
 
     }
 
-    public Category(String title, String image, ArrayList<Post> posts) {
+    public Category(String title, String image) {
         this.title = title;
         this.image = image;
-        this.posts = posts;
     }
 
     public String getTitle() {
@@ -33,7 +32,12 @@ public class Category {
         return image;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public String getCategoryId() {
+        return categoryId;
     }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
 }

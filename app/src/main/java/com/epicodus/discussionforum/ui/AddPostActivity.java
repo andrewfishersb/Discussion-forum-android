@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.epicodus.discussionforum.R;
 import com.epicodus.discussionforum.models.Category;
 import com.epicodus.discussionforum.models.Post;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.parceler.Parcels;
 
@@ -34,7 +35,6 @@ public class AddPostActivity extends AppCompatActivity implements View.OnClickLi
         if (view == mPostButton) {
             String postTitle = mAddPostTitleEditText.getText().toString();
             String postDetails = mTextBoxEditText.getText().toString();
-            mCategory.getPosts().add(new Post(postTitle, postDetails));
         }
     }
 }

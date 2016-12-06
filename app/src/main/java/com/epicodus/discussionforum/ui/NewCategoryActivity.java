@@ -41,13 +41,15 @@ public class NewCategoryActivity extends AppCompatActivity implements View.OnCli
             DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_CATEGORY);
             String categoryName = mCategoryTitleEditText.getText().toString();
             String categoryImageUrl = mCategoryImageEditText.getText().toString();
-            ArrayList<Post> newPost = new ArrayList<>();
             if(!categoryImageUrl.equals("")&&categoryImageUrl!=null){
                 if(!categoryName.equals("")&&categoryName!=null){
-                    Category newCategory = new Category(categoryName, categoryImageUrl,newPost);
-                    categoryRef.push().setValue(newCategory);
+                    Category newCategory = new Category(categoryName, categoryImageUrl);
 
+                    DatabaseReference pushRef = categoryRef.push();
+                    String pushId = pushRef.getKey();
+                    newCategory.setCategoryId(pushId);
 
+                    pushRef.setValue(newCategory);
                     Intent intent = new Intent(NewCategoryActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
@@ -55,11 +57,6 @@ public class NewCategoryActivity extends AppCompatActivity implements View.OnCli
             }else{
                 Toast.makeText(this, "You are a failure, please leave", Toast.LENGTH_SHORT).show();
             }
-
-
-
-
-
         }
     }
 }
