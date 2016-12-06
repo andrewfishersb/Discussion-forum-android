@@ -25,6 +25,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.epicodus.discussionforum.ui.MainActivity" />
         </activity>
+        <activity android:name=".ui.AddPostActivity">
+        </activity>
     </application>
 
 </manifest>

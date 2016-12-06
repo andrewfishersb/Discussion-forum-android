@@ -1,7 +1,11 @@
 package com.epicodus.discussionforum.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,5 +39,24 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         mCategoryDetailTitleTextView.setText(mCategory.getTitle());
         Picasso.with(this).load(mCategory.getImage()).into(mCategoryDetailImageView);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_add_post, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.action_add_post:
+                Intent intent = new Intent(CategoryDetailActivity.this,AddPostActivity.class);
+                startActivity(intent);
+                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
