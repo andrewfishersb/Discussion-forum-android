@@ -2,7 +2,6 @@ package com.epicodus.discussionforum.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.media.MediaMetadataCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +11,6 @@ import com.epicodus.discussionforum.Constants;
 import com.epicodus.discussionforum.R;
 import com.epicodus.discussionforum.models.Category;
 import com.epicodus.discussionforum.ui.CategoryDetailActivity;
-import com.epicodus.discussionforum.ui.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

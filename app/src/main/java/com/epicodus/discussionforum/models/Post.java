@@ -9,13 +9,14 @@ import org.parceler.Parcel;
 public class Post {
     String title;
     String details;
-    private String pushId;
+    private String categoryId;
 
     public Post() {}
 
-    public Post(String title, String details) {
+    public Post(String title, String details, String categoryId) {
         this.title = title;
         this.details = details;
+        this.categoryId = categoryId;
     }
 
     public String getDetails() {
@@ -26,11 +27,11 @@ public class Post {
         return title;
     }
 
-    public String getPushId() {
-        return pushId;
+    public String getCategoryId() {
+        return categoryId;
     }
 
     public void setPushId(String pushId) {
-        this.pushId = pushId;
+        this.categoryId = pushId;
     }
 }
